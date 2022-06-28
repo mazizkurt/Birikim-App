@@ -1,0 +1,11 @@
+$theme-colors: (
+    "info": tomato,
+    "danger": teal,
+    "dark": rgb(40, 38, 38),
+    "white":rgb(219, 219, 219),
+    "primary":rgb(94, 80, 149),
+    "transparent": rgba(0, 0, 0, 0),
+);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
