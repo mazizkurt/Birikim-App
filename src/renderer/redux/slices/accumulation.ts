@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: IAccumulationState = {
-  accumulation: undefined,
+  accumulation: [],
 };
 
 export interface IAccumulationState {
-  accumulation?: any;
+  accumulation?: Array<object>;
 }
 
 export const userSlice = createSlice({
@@ -15,19 +15,19 @@ export const userSlice = createSlice({
     _update: (state, action: PayloadAction<IAccumulationState>) => {
       const accumulation = action.payload?.accumulation;
       const newState: any = { ...state };
-      newState[accumulation.id] = accumulation;
       state.accumulation = newState;
     },
     _add: (state, action: PayloadAction<IAccumulationState>) => {
       const accumulation = action.payload?.accumulation;
-      const newState: any = { ...state , accumulation};
+      const newState:any = state.accumulation
+      newState.push(accumulation)
       state.accumulation = newState;
     },
     _remove: (state,action: PayloadAction<IAccumulationState>) => {
-      const accumulation = action.payload?.accumulation;
-      const newState: any = { ...state };
-      newState.filter((data: any) => data.id !== accumulation.id);
-      state.accumulation = newState;
+     const id:any = action.payload?.accumulation;
+     const newState:any = state.accumulation
+     state.accumulation = newState.filter((data:any,index:any)=>index !== id.id);
+
     },
   },
   extraReducers: (builder) => {},

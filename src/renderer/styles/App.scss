@@ -1,11 +1,38 @@
 $theme-colors: (
-    "info": tomato,
-    "danger": teal,
-    "dark": rgb(40, 38, 38),
-    "white":rgb(219, 219, 219),
-    "primary":rgb(94, 80, 149),
-    "transparent": rgba(0, 0, 0, 0),
+  'info': tomato,
+  'danger': teal,
+  'dark': rgb(40, 38, 38),
+  'whiter': rgb(187, 179, 179),
+  'primary': rgb(94, 80, 149),
+  'transparent': rgba(0, 0, 0, 0),
 );
 
 /* import bootstrap to set changes */
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
+
+.invisible-scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgb(187, 179, 179);
+  border-radius: 20px;
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgb(187, 179, 179);
+  border-radius: 20px;
+}
+
+.invisible-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(94, 80, 149);
+  border-radius: 15px;
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+}
