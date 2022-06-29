@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { RootState } from 'renderer/redux/app/store';
 import { _add, _remove } from 'renderer/redux/slices/accumulation';
+import SettingsModal from '../modals/home/settings-modal';
 
 function Home() {
   const dispatch = useDispatch();
@@ -16,25 +18,43 @@ function Home() {
   const [purchaseDate, setPurchaseDate] = useState('');
   const [purchaseNote, setPurchaseNote] = useState('');
 
-  console.log(accumulation);
+  const [settingsModal,setSettingModal] = useState(false);
+
   const add = (event: any) => {
     event.preventDefault();
-    dispatch(
-      _add({
-        accumulation: {
-          accType,
-          purchasePrice,
-          purchaseDate,
-          purchaseNote,
-        },
-      })
-    );
+    if(accType !== "")
+      if(purchasePrice.length>0)
+        if(purchaseDate.length>0)
+          {
+            dispatch(
+              _add({
+                accumulation: {
+                  accType,
+                  purchasePrice,
+                  purchaseDate,
+                  purchaseNote,
+                },
+              })
+            );
+          }
+        else
+          toast.warning("Lütfen tarih giriniz");
+      else
+        toast.warning("Lütfen fiyat giriniz");
+    else
+      toast.warning("Lütfen birikim tipi giriniz");
+    
+    
   };
   return (
+    <>
     <div
-      className="container-fluid bg-dark  w-100 text-white p-5"
+      className="container-fluid position-relative bg-dark  w-100 text-white p-5"
       style={{ height: '100vh' }}
     >
+      <div className='position-absolute top-0 end-0 me-3 mt-3'>
+        <button className='btn btn-primary btn-sm' onClick={()=>setSettingModal(!settingsModal)}><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
+      </div>
       <div className="row ">
         <div className="col-sm-6 col-md-6 col-lg-6 ">
           <div className="d-flex align-items-center justify-content-between">
@@ -42,12 +62,12 @@ function Home() {
             <div className="text-whiter">
               {' '}
               {Intl.NumberFormat('tr-Tr').format(
-                accumulation.accumulation.reduce(
+                accumulation.accumulation.length>0 ? accumulation.accumulation.reduce(
                   (partialSum: any, a: any) =>
                     partialSum + parseFloat(a.purchasePrice),
                   0
-                )
-              )}{' '}
+                ):null
+              )}
               TL
             </div>
           </div>
@@ -142,7 +162,7 @@ function Home() {
                 className="form-select"
                 onChange={(e) => setAccType(e.target.value)}
               >
-                <option>Seçiniz</option>
+                <option value={""}>Seçiniz</option>
                 <option value={'Dolar'}>Dolar</option>
                 <option value={'Euro'}>Euro</option>
                 <option value={'Sterlin'}>Sterlin</option>
@@ -201,6 +221,8 @@ function Home() {
         </div>
       </div>
     </div>
+    <SettingsModal show={settingsModal} onHide={()=>setSettingModal(!settingsModal)} />
+    </>
   );
 }
 
