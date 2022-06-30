@@ -221,7 +221,7 @@ function Home() {
         </div>
       </div>
     </div>
-    <SettingsModal show={settingsModal} onHide={()=>setSettingModal(!settingsModal)} />
+    <SettingsModal show={settingsModal} onHide={()=>setSettingModal(!settingsModal)} data={accumulation}/>
     </>
   );
 }

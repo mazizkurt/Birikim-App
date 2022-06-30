@@ -3,9 +3,25 @@ import { Button, Modal } from 'react-bootstrap';
 type Props = {
   show: boolean;
   onHide: () => void;
+  data: any;
 };
-const SettingsModal: FC<Props> = ({ show, onHide }) => {
+const SettingsModal: FC<Props> = ({ data, show, onHide }) => {
   const dismiss = () => onHide();
+
+  const exportData = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data)
+    )}`;
+    const link = document.createElement('a');
+    link.href = jsonString;
+    link.download = 'birikim.json';
+
+    link.click();
+  };
+  const importData = (e: any) => {
+    document.getElementById('my_file').click();
+  };
+
   return (
     <>
       <Modal
@@ -29,7 +45,8 @@ const SettingsModal: FC<Props> = ({ show, onHide }) => {
             <div className="col-md-6">
               <div
                 className=" bg-primary  text-white d-flex align-items-center justify-content-center shadow"
-                style={{ height: '150px', borderRadius: 10,cursor:"pointer" }}
+                style={{ height: '150px', borderRadius: 10, cursor: 'pointer' }}
+                onClick={exportData}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -45,10 +62,11 @@ const SettingsModal: FC<Props> = ({ show, onHide }) => {
                 <label className="fw-bold">Verileri Dışar Aktar</label>
               </div>
             </div>
-            <div className="col-md-6" >
+            <div className="col-md-6">
               <div
                 className="bg-success text-white d-flex align-items-center justify-content-center shadow"
-                style={{ height: '150px', borderRadius: 10,cursor:"pointer" }}
+                style={{ height: '150px', borderRadius: 10, cursor: 'pointer' }}
+                onClick={importData}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +79,8 @@ const SettingsModal: FC<Props> = ({ show, onHide }) => {
                     d="M384 0v128h128L384 0zM352 128L352 0H176C149.5 0 128 21.49 128 48V288h174.1l-39.03-39.03c-9.375-9.375-9.375-24.56 0-33.94s24.56-9.375 33.94 0l80 80c9.375 9.375 9.375 24.56 0 33.94l-80 80c-9.375 9.375-24.56 9.375-33.94 0C258.3 404.3 256 398.2 256 392s2.344-12.28 7.031-16.97L302.1 336H128v128C128 490.5 149.5 512 176 512h288c26.51 0 48-21.49 48-48V160h-127.1C366.3 160 352 145.7 352 128zM24 288C10.75 288 0 298.7 0 312c0 13.25 10.75 24 24 24H128V288H24z"
                   />
                 </svg>
-                <label className="fw-bold">Verileri Dışa Aktar</label>
+                <label className="fw-bold">Verileri İçe Aktar</label>
+                <input type="file" className="my_file" id="my_file"></input>
               </div>
             </div>
           </div>
