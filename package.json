@@ -1,5 +1,5 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "description": "Birikim uygulaması",
   "keywords": [
     "electron",
     "boilerplate",
@@ -94,6 +94,7 @@
   "dependencies": {
     "@manaflair/redux-batch": "^1.0.0",
     "@reduxjs/toolkit": "^1.8.2",
+    "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.7",
