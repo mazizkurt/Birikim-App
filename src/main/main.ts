@@ -31,6 +31,8 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -65,15 +67,25 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
 
+    console.log(RESOURCES_PATH)
   const getAssetPath = (...paths: string[]): string => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 830,
+    minWidth:830,
+    minHeight:700,
+    height: 700,
+    maximizable:false,
     icon: getAssetPath('icon.png'),
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#2f3241',
+      symbolColor: '#74b1be'
+    },
+    backgroundColor: '#312450',
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')

@@ -1,12 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _update } from 'renderer/redux/slices/accumulation';
 type Props = {
   show: boolean;
   onHide: () => void;
   data: any;
 };
 const SettingsModal: FC<Props> = ({ data, show, onHide }) => {
+  const dispatch = useDispatch();
+
   const dismiss = () => onHide();
+
+  const [imprtData, setImprtData] = useState(null);
 
   const exportData = () => {
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -22,6 +29,20 @@ const SettingsModal: FC<Props> = ({ data, show, onHide }) => {
     document.getElementById('my_file').click();
   };
 
+  const jsonData = (e: any) => {
+    if (e.target.files.length > 0) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (event: any) {
+        var data = JSON.parse(event.target.result);
+        dispatch(_update(data));
+        toast.success('Veriler başarıyla içe aktarıldı.');
+      };
+      reader.readAsText(file);
+    } else {
+      toast.warning('Lütfen geçerli bir dosya ekleyin.');
+    }
+  };
   return (
     <>
       <Modal
@@ -80,7 +101,13 @@ const SettingsModal: FC<Props> = ({ data, show, onHide }) => {
                   />
                 </svg>
                 <label className="fw-bold">Verileri İçe Aktar</label>
-                <input type="file" className="my_file" id="my_file"></input>
+                <input
+                  type="file"
+                  className="my_file"
+                  id="my_file"
+                  accept="application/JSON"
+                  onChange={jsonData}
+                ></input>
               </div>
             </div>
           </div>

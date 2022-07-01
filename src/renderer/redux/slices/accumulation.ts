@@ -14,8 +14,8 @@ export const userSlice = createSlice({
   reducers: {
     _update: (state, action: PayloadAction<IAccumulationState>) => {
       const accumulation = action.payload?.accumulation;
-      const newState: any = { ...state };
-      state.accumulation = newState;
+      state.accumulation = accumulation;
+      console.log(state.accumulation)
     },
     _add: (state, action: PayloadAction<IAccumulationState>) => {
       const accumulation = action.payload?.accumulation;
