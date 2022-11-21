@@ -1,4 +1,4 @@
-Accumulate Uygulaması
+Accumulate App
 
 electron js , redux toolkit, react js
 
